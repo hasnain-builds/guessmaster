@@ -47,29 +47,6 @@
   --radius-sm: 6px;
 }
 
-:root[data-difficulty="easy"] {
-  --accent-orange: #46d27a;
-  --accent-gold: #8bf59f;
-  --accent-blue: #5cb4ff;
-  --accent-purple: #8f63ff;
-  --accent-pink: #44d69f;
-}
-
-:root[data-difficulty="medium"] {
-  --accent-orange: #ff983f;
-  --accent-gold: #ffd46a;
-  --accent-blue: #68a6ff;
-  --accent-purple: #8f63ff;
-  --accent-pink: #ff6a8f;
-}
-
-:root[data-difficulty="hard"] {
-  --accent-orange: #ff6b3d;
-  --accent-gold: #ff8d6a;
-  --accent-blue: #9a6bff;
-  --accent-purple: #d44cff;
-  --accent-pink: #ff4f7b;
-}
 
 * { box-sizing: border-box; }
 html { min-height: 100%; }
@@ -242,7 +219,24 @@ input:focus-visible {
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  box-shadow: 0 0 12px currentColor;
+}
+
+.difficulty-card--easy .difficulty-dot {
+  color: #46d27a;
+  background: #46d27a;
+  box-shadow: 0 0 12px #46d27a;
+}
+
+.difficulty-card--medium .difficulty-dot {
+  color: #ff983f;
+  background: #ff983f;
+  box-shadow: 0 0 12px #ff983f;
+}
+
+.difficulty-card--hard .difficulty-dot {
+  color: #ff6b3d;
+  background: #ff6b3d;
+  box-shadow: 0 0 12px #ff6b3d;
 }
 
 .difficulty-check {
@@ -262,45 +256,16 @@ input:focus-visible {
   transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
 }
 
-.difficulty-card--easy .difficulty-dot {
-  color: #46d27a;
-  background: #46d27a;
-}
-
-.difficulty-card--medium .difficulty-dot {
-  color: #ffd46a;
-  background: #ffd46a;
-}
-
-.difficulty-card--hard .difficulty-dot {
-  color: #ff6b3d;
-  background: #ff6b3d;
-}
-
 .difficulty-card.selected {
   border-color: transparent;
   transform: translateY(-2px);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 0 28px rgba(255, 255, 255, 0.1), 0 18px 34px rgba(10, 14, 28, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 152, 63, 0.32), 0 0 28px rgba(104, 166, 255, 0.2), 0 18px 34px rgba(10, 14, 28, 0.22);
 }
 
 .difficulty-card.selected .difficulty-check {
   opacity: 1;
   transform: scale(1);
-}
-
-.difficulty-card--easy.selected {
-  background: linear-gradient(135deg, rgba(70, 210, 122, 0.26), rgba(91, 180, 255, 0.18));
-  box-shadow: 0 0 0 1px rgba(70, 210, 122, 0.34), 0 0 28px rgba(70, 210, 122, 0.2);
-}
-
-.difficulty-card--medium.selected {
-  background: linear-gradient(135deg, rgba(255, 152, 63, 0.3), rgba(255, 212, 106, 0.16));
-  box-shadow: 0 0 0 1px rgba(255, 152, 63, 0.32), 0 0 28px rgba(255, 212, 106, 0.2);
-}
-
-.difficulty-card--hard.selected {
-  background: linear-gradient(135deg, rgba(255, 107, 61, 0.28), rgba(143, 99, 255, 0.2));
-  box-shadow: 0 0 0 1px rgba(255, 107, 61, 0.32), 0 0 28px rgba(143, 99, 255, 0.2);
 }
 
 .continue-button {
@@ -470,34 +435,57 @@ input:focus-visible {
   border-radius: 999px;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
-.icon-button {
+.header-controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.header-button {
   position: relative;
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.7rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(17, 15, 31, 0.72);
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 14px 30px rgba(12, 16, 31, 0.28);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  height: 44px;
   overflow: hidden;
   transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
               box-shadow 0.25s ease, 
               background 0.25s ease, 
               border-color 0.25s ease;
 }
-.icon-button:hover {
-  transform: translateY(-3px) scale(1.05);
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), 
-              0 0 15px rgba(255, 255, 255, 0.15);
+
+.header-button:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 14px 30px rgba(12, 16, 31, 0.32), 
+              0 0 15px rgba(255, 255, 255, 0.1);
 }
-.icon-button:active {
-  transform: translateY(-1px) scale(0.97);
+
+.header-button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.header-button-text {
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 .icon-wrapper {
   position: relative;
@@ -548,35 +536,7 @@ input:focus-visible {
   opacity: 1;
   transform: scale(1) rotate(0deg);
 }
-.about-button {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 70;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.7rem 0.95rem;
-  border-radius: 999px;
-  background: rgba(17, 15, 31, 0.72);
-  border: 1px solid var(--border);
-  box-shadow: 0 14px 30px rgba(12, 16, 31, 0.28);
-  backdrop-filter: blur(16px);
-}
-.about-button-icon {
-  width: 1.55rem;
-  height: 1.55rem;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
-  color: #1c1430;
-  font-weight: 800;
-}
-.about-button-text {
-  font-size: 0.95rem;
-  font-weight: 800;
-}
+
 .icon {
   font-size: 1.05rem;
 }
@@ -611,17 +571,6 @@ input:focus-visible {
   min-height: 92px;
 }
 
-.difficulty-stat--easy {
-  background: linear-gradient(135deg, rgba(70, 210, 122, 0.22), rgba(91, 180, 255, 0.12));
-}
-
-.difficulty-stat--medium {
-  background: linear-gradient(135deg, rgba(255, 152, 63, 0.22), rgba(255, 212, 106, 0.12));
-}
-
-.difficulty-stat--hard {
-  background: linear-gradient(135deg, rgba(255, 107, 61, 0.22), rgba(143, 99, 255, 0.12));
-}
 .stat-card strong {
   font-size: 1.8rem;
   font-family: var(--font-heading);
@@ -712,17 +661,6 @@ input:focus-visible {
   box-sizing: border-box;
 }
 
-.active-difficulty-badge[data-difficulty="easy"] {
-  background: linear-gradient(135deg, #46d27a, #8bf59f, #5cb4ff);
-}
-
-.active-difficulty-badge[data-difficulty="medium"] {
-  background: linear-gradient(135deg, #ff983f, #ffd46a, #68a6ff);
-}
-
-.active-difficulty-badge[data-difficulty="hard"] {
-  background: linear-gradient(135deg, #ff6b3d, #d44cff, #ff4f7b);
-}
 .progress-track,
 .loading-progress {
   height: 14px;
@@ -871,17 +809,6 @@ input:focus-visible {
   border-color: transparent;
 }
 
-.badge[data-badge="easy-conqueror"].unlocked {
-  background: linear-gradient(135deg, #46d27a, #8bf59f);
-}
-
-.badge[data-badge="medium-master"].unlocked {
-  background: linear-gradient(135deg, #ff983f, #ffd46a);
-}
-
-.badge[data-badge="guessmaster-legend"].unlocked {
-  background: linear-gradient(135deg, #ff6b3d, #8f63ff);
-}
 .badge.locked { opacity: 0.42; }
 .game-footer { flex-wrap: wrap; }
 .victory-screen {
@@ -1326,11 +1253,14 @@ input:focus-visible {
   .difficulty-chip {
     width: 100%;
   }
-  .about-button {
-    padding: 0.65rem 0.85rem;
-  }
-  .about-button-text {
+  .header-button-text {
     display: none;
+  }
+  .header-button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
   }
   .about-modal {
     padding: 0.5rem;
@@ -1417,7 +1347,7 @@ input:focus-visible {
 
 :root[data-theme="light"] .difficulty-card.selected {
   border-color: #FF9F43;
-  background: #FFFBF7;
+  background: #ffffff;
   box-shadow: 0 0 0 1px #FF9F43, 0 4px 12px rgba(255, 159, 67, 0.08);
 }
 
@@ -1465,25 +1395,17 @@ input:focus-visible {
 }
 
 /* Toggles & about button */
-:root[data-theme="light"] .icon-button {
+:root[data-theme="light"] .header-button {
   background: #ffffff;
   border: 1px solid #E2E8F0;
-  color: #64748B;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  color: #0F172A;
 }
 
-:root[data-theme="light"] .icon-button:hover {
+:root[data-theme="light"] .header-button:hover {
   background: #F8FAFC;
-  color: #0F172A;
   border-color: #CBD5E1;
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-}
-
-:root[data-theme="light"] .about-button {
-  background: #ffffff;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-  color: #0F172A;
 }
 
 /* Stat cards & mode banner */

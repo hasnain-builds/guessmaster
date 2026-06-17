@@ -653,7 +653,6 @@ function handleGuessSubmission(event) {
     dom.statusPanel.classList.remove('pulse');
     void dom.statusPanel.offsetWidth;
     dom.statusPanel.classList.add('pulse');
-    addFeedbackChip('Oracle cracked', 'correct');
     unlockLuckyGuess();
     const attemptsUsed = appState.maxAttempts - appState.attemptsLeft + 1;
     recordStatsOnWin(attemptsUsed);
