@@ -7,7 +7,7 @@ GuessMaster is a modern browser-based Number Guessing Game built using HTML, CSS
 ## 🚀 Live Demo
 
 Play Now:
-[Add Your GitHub Pages Link Here]
+https://hasnain-builds.github.io/guessmaster/
 
 ---
 
