@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="GuessMaster favicon">
+  <defs>
+    <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff983f" />
+      <stop offset="48%" stop-color="#ffd46a" />
+      <stop offset="100%" stop-color="#8f63ff" />
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="24" fill="#151026" />
+  <circle cx="48" cy="48" r="34" fill="#101627" stroke="url(#fg)" stroke-width="7" />
+  <circle cx="48" cy="48" r="24" fill="none" stroke="#ffd46a" stroke-width="4" />
+  <circle cx="48" cy="48" r="14" fill="none" stroke="#68a6ff" stroke-width="4" />
+  <circle cx="48" cy="48" r="6" fill="#ff6a8f" />
+  <path d="M52 16 L60 33 L48 44 L39 31 Z" fill="#ff983f" />
+  <path d="M60 33 L79 21" stroke="#ffd46a" stroke-width="5" stroke-linecap="round" />
+  <path d="M79 21 L84 16" stroke="#ff6a8f" stroke-width="5" stroke-linecap="round" />
+</svg>

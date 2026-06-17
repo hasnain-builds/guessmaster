@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17112f" />
+  <meta name="description" content="GuessMaster - a premium web-based number guessing game built with HTML, CSS, and vanilla JavaScript." />
+  <title>GuessMaster | Number Guessing Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="aurora aurora-three"></div>
+    <div id="particle-field" class="particle-field"></div>
+  </div>
+
+  <button id="open-about" class="about-button" type="button" aria-haspopup="dialog" aria-controls="about-modal" aria-label="Open About dialog">
+    <span class="about-button-icon" aria-hidden="true">ℹ</span>
+    <span class="about-button-text">About</span>
+  </button>
+
+  <div id="loading-screen" class="loading-screen" aria-live="polite" aria-label="Loading game">
+    <div class="loading-card glass-panel">
+      <div class="brand-lockup brand-lockup--loading">
+        <svg class="brand-icon" viewBox="0 0 96 96" aria-hidden="true">
+          <defs>
+            <linearGradient id="brandGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff9a3d" />
+              <stop offset="48%" stop-color="#ffcf5a" />
+              <stop offset="100%" stop-color="#7b5cff" />
+            </linearGradient>
+          </defs>
+          <circle cx="48" cy="48" r="38" fill="#12111f" stroke="url(#brandGlow)" stroke-width="6" />
+          <circle cx="48" cy="48" r="27" fill="none" stroke="#ffcf5a" stroke-width="4" opacity="0.96" />
+          <circle cx="48" cy="48" r="16" fill="none" stroke="#6ea7ff" stroke-width="4" opacity="0.96" />
+          <path d="M50 16 L60 34 L47 45 L38 32 Z" fill="#ff8b39" />
+          <path d="M60 34 L78 22" stroke="#ffe16d" stroke-width="5" stroke-linecap="round" />
+          <path d="M78 22 L84 16" stroke="#ff5f7a" stroke-width="5" stroke-linecap="round" />
+          <circle cx="48" cy="48" r="7" fill="#ff5f7a" />
+          <path d="M48 6 V18 M48 78 V90 M6 48 H18 M78 48 H90" stroke="#ffffff" stroke-width="2.5" opacity="0.8" />
+        </svg>
+        <div class="brand-wordmark">
+          <span class="brand-word brand-word--guess">Guess</span><span class="brand-word brand-word--master">Master</span>
+        </div>
+      </div>
+      <p class="brand-tagline">Think. Guess. Win.</p>
+      <div class="loading-progress" aria-hidden="true"><span class="loading-progress-bar"></span></div>
+      <p class="loading-copy">Booting the arena, sound engine, and hidden number.</p>
+    </div>
+  </div>
+
+  <div id="difficulty-screen" class="difficulty-screen" aria-label="Difficulty selection" hidden>
+    <section class="difficulty-panel glass-panel">
+      <div class="brand-lockup brand-lockup--selection">
+        <svg class="brand-icon" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="48" cy="48" r="38" fill="#12111f" stroke="#ff9a3d" stroke-width="6" />
+          <circle cx="48" cy="48" r="27" fill="none" stroke="#ffcf5a" stroke-width="4" opacity="0.96" />
+          <circle cx="48" cy="48" r="16" fill="none" stroke="#6ea7ff" stroke-width="4" opacity="0.96" />
+          <path d="M50 16 L60 34 L47 45 L38 32 Z" fill="#ff8b39" />
+          <path d="M60 34 L78 22" stroke="#ffe16d" stroke-width="5" stroke-linecap="round" />
+          <path d="M78 22 L84 16" stroke="#ff5f7a" stroke-width="5" stroke-linecap="round" />
+          <circle cx="48" cy="48" r="7" fill="#ff5f7a" />
+          <path d="M48 6 V18 M48 78 V90 M6 48 H18 M78 48 H90" stroke="#ffffff" stroke-width="2.5" opacity="0.8" />
+        </svg>
+        <div class="brand-wordmark">
+          <span class="brand-word brand-word--guess">Guess</span><span class="brand-word brand-word--master">Master</span>
+        </div>
+      </div>
+      <p class="brand-tagline">Think. Guess. Win.</p>
+      <h2 class="difficulty-title">Select Difficulty</h2>
+      <div class="difficulty-picker" role="radiogroup" aria-label="Select difficulty">
+        <button class="difficulty-card difficulty-card--easy" type="button" data-difficulty-start="easy">
+          <span class="difficulty-dot"></span>
+          <span class="difficulty-check" aria-hidden="true">✓</span>
+          <strong>Easy</strong>
+          <span>Range: 1–50</span>
+          <span>4 Attempts</span>
+        </button>
+        <button class="difficulty-card difficulty-card--medium" type="button" data-difficulty-start="medium">
+          <span class="difficulty-dot"></span>
+          <span class="difficulty-check" aria-hidden="true">✓</span>
+          <strong>Medium</strong>
+          <span>Range: 1–100</span>
+          <span>5 Attempts</span>
+        </button>
+        <button class="difficulty-card difficulty-card--hard" type="button" data-difficulty-start="hard">
+          <span class="difficulty-dot"></span>
+          <span class="difficulty-check" aria-hidden="true">✓</span>
+          <strong>Hard</strong>
+          <span>Range: 1–500</span>
+          <span>8 Attempts</span>
+        </button>
+      </div>
+      <p class="difficulty-note">Choose a mode to begin your GuessMaster run.</p>
+      <button id="continue-button" class="primary-button continue-button" type="button" disabled>▶ Continue</button>
+    </section>
+  </div>
+
+  <main id="game-screen" class="app-shell" hidden>
+    <section class="brand-stage" aria-label="GuessMaster branding">
+      <div class="brand-lockup brand-lockup--hero">
+        <svg class="brand-icon" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="48" cy="48" r="38" fill="#12111f" stroke="#ff9a3d" stroke-width="6" />
+          <circle cx="48" cy="48" r="27" fill="none" stroke="#ffcf5a" stroke-width="4" opacity="0.96" />
+          <circle cx="48" cy="48" r="16" fill="none" stroke="#6ea7ff" stroke-width="4" opacity="0.96" />
+          <path d="M50 16 L60 34 L47 45 L38 32 Z" fill="#ff8b39" />
+          <path d="M60 34 L78 22" stroke="#ffe16d" stroke-width="5" stroke-linecap="round" />
+          <path d="M78 22 L84 16" stroke="#ff5f7a" stroke-width="5" stroke-linecap="round" />
+          <circle cx="48" cy="48" r="7" fill="#ff5f7a" />
+          <path d="M48 6 V18 M48 78 V90 M6 48 H18 M78 48 H90" stroke="#ffffff" stroke-width="2.5" opacity="0.8" />
+        </svg>
+        <div class="brand-wordmark">
+          <span class="brand-word brand-word--guess">Guess</span><span class="brand-word brand-word--master">Master</span>
+        </div>
+      </div>
+      <p class="brand-tagline">Think. Guess. Win.</p>
+    </section>
+
+    <section class="game-card glass-panel" aria-labelledby="game-title">
+      <header class="hero-bar">
+        <div class="hero-copy">
+          <p class="eyebrow">Premium browser game</p>
+          <h1 id="game-title">Crack the hidden number before your attempts run out.</h1>
+          <p class="subtitle">The board changes every round. Read the signal, trust the glow, and lock in the win.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="sound-toggle" class="icon-button" type="button" aria-pressed="true" aria-label="Toggle sound">
+            <span class="icon">♪</span>
+          </button>
+          <button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="Toggle dark or light mode">
+            <span class="icon">◐</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="stats-grid" aria-label="Game statistics">
+        <article class="stat-card">
+          <span class="stat-label">Games Played</span>
+          <strong id="games-played">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Wins</span>
+          <strong id="wins-count">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Win %</span>
+          <strong id="win-percent">0%</strong>
+        </article>
+        <article class="stat-card highlight-card">
+          <span class="stat-label">Best Score</span>
+          <strong id="best-score">—</strong>
+        </article>
+        <article class="stat-card difficulty-stat difficulty-stat--easy">
+          <span class="stat-label">Easy Wins</span>
+          <strong id="easy-wins">0</strong>
+        </article>
+        <article class="stat-card difficulty-stat difficulty-stat--medium">
+          <span class="stat-label">Medium Wins</span>
+          <strong id="medium-wins">0</strong>
+        </article>
+        <article class="stat-card difficulty-stat difficulty-stat--hard">
+          <span class="stat-label">Hard Wins</span>
+          <strong id="hard-wins">0</strong>
+        </article>
+      </section>
+
+      <section class="control-row" aria-label="Difficulty selection and game controls">
+        <div class="difficulty-group" role="tablist" aria-label="Difficulty level">
+          <button class="difficulty-chip active" type="button" data-difficulty="easy" aria-selected="false">Easy</button>
+          <button class="difficulty-chip" type="button" data-difficulty="medium" aria-selected="true">Medium</button>
+          <button class="difficulty-chip" type="button" data-difficulty="hard" aria-selected="false">Hard</button>
+        </div>
+        <button id="reset-stats" class="ghost-button" type="button">Reset Statistics</button>
+      </section>
+
+      <section class="mode-banner" aria-live="polite">
+        <div>
+          <span class="mode-label">Current Mode</span>
+          <strong id="mode-text">Medium · 1 to 100 · 5 attempts</strong>
+        </div>
+        <div>
+          <span class="mode-label">Attempts Remaining</span>
+          <strong id="attempts-remaining">5</strong>
+        </div>
+        <div class="active-difficulty-wrap">
+          <span class="mode-label">Active Badge</span>
+          <strong id="active-difficulty-badge" class="active-difficulty-badge">Medium</strong>
+        </div>
+      </section>
+
+      <div class="progress-wrap" aria-label="Attempts progress">
+        <div class="progress-track">
+          <div id="attempts-bar" class="progress-fill"></div>
+        </div>
+        <div class="progress-meta">
+          <span id="progress-text">5 / 5 attempts left</span>
+          <span id="range-text">Guess a number between 1 and 100</span>
+        </div>
+      </div>
+
+      <form id="guess-form" class="guess-form" autocomplete="off" novalidate>
+        <label class="field-label" for="guess-input">Enter your guess</label>
+        <div class="input-row">
+          <input
+            id="guess-input"
+            name="guess"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="3"
+            placeholder="Type a number"
+            aria-describedby="input-hint result-message"
+          />
+          <button id="submit-guess" class="primary-button" type="submit">Submit Guess</button>
+        </div>
+        <p id="input-hint" class="hint-text">Only numbers in range are accepted. Press Enter to submit.</p>
+      </form>
+
+      <section class="status-panel" aria-live="polite">
+        <p id="result-message" class="result-message" role="status">Make a guess to begin.</p>
+        <div id="guess-feedback" class="feedback-line"></div>
+      </section>
+
+      <section class="history-section" aria-label="Guess history">
+        <div class="section-heading">
+          <h2>Guess Log</h2>
+          <span id="guess-count">0 guesses</span>
+        </div>
+        <div id="guess-history" class="guess-history" role="list"></div>
+      </section>
+
+      <section class="achievement-section" aria-label="Achievements and badges">
+        <div class="section-heading">
+          <h2>Achievements</h2>
+          <span>Unlock badges as you win</span>
+        </div>
+        <div id="badge-list" class="badge-list">
+          <span class="badge locked" data-badge="first-win">First Win</span>
+          <span class="badge locked" data-badge="lucky-guess">Lucky Guess</span>
+          <span class="badge locked" data-badge="easy-conqueror">Easy Conqueror</span>
+          <span class="badge locked" data-badge="medium-master">Medium Master</span>
+          <span class="badge locked" data-badge="guessmaster-legend">GuessMaster Legend</span>
+        </div>
+      </section>
+
+      <footer class="game-footer">
+        <button id="back-difficulty" class="ghost-button" type="button">← Change Difficulty</button>
+        <button id="restart-game" class="secondary-button" type="button">Restart Game</button>
+        <button id="open-help" class="ghost-button" type="button">How to Play</button>
+      </footer>
+    </section>
+  </main>
+
+  <div id="victory-screen" class="victory-screen" hidden aria-hidden="true">
+    <div class="victory-card glass-panel" role="dialog" aria-labelledby="victory-title" aria-modal="true">
+      <div class="brand-lockup brand-lockup--victory">
+        <svg class="brand-icon" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="48" cy="48" r="38" fill="#12111f" stroke="#ff9a3d" stroke-width="6" />
+          <circle cx="48" cy="48" r="27" fill="none" stroke="#ffcf5a" stroke-width="4" opacity="0.96" />
+          <circle cx="48" cy="48" r="16" fill="none" stroke="#6ea7ff" stroke-width="4" opacity="0.96" />
+          <path d="M50 16 L60 34 L47 45 L38 32 Z" fill="#ff8b39" />
+          <path d="M60 34 L78 22" stroke="#ffe16d" stroke-width="5" stroke-linecap="round" />
+          <path d="M78 22 L84 16" stroke="#ff5f7a" stroke-width="5" stroke-linecap="round" />
+          <circle cx="48" cy="48" r="7" fill="#ff5f7a" />
+          <path d="M48 6 V18 M48 78 V90 M6 48 H18 M78 48 H90" stroke="#ffffff" stroke-width="2.5" opacity="0.8" />
+        </svg>
+        <div class="brand-wordmark">
+          <span class="brand-word brand-word--guess">Guess</span><span class="brand-word brand-word--master">Master</span>
+        </div>
+      </div>
+      <p class="victory-kicker">🎯 GuessMaster Champion!</p>
+      <h2 id="victory-title">You read the board and won.</h2>
+      <p id="victory-copy">The next challenge is already waiting behind the glow.</p>
+      <div id="victory-meta" class="victory-meta"></div>
+      <div class="victory-actions">
+        <button id="victory-play-again" class="primary-button" type="button">Play Again</button>
+        <button id="victory-close" class="ghost-button" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card glass-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button id="modal-close" class="modal-close" type="button" aria-label="Close dialog">×</button>
+      <div class="brand-lockup brand-lockup--compact">
+        <svg class="brand-icon" viewBox="0 0 96 96" aria-hidden="true">
+          <circle cx="48" cy="48" r="38" fill="#12111f" stroke="#ff9a3d" stroke-width="6" />
+          <circle cx="48" cy="48" r="27" fill="none" stroke="#ffcf5a" stroke-width="4" opacity="0.96" />
+          <circle cx="48" cy="48" r="16" fill="none" stroke="#6ea7ff" stroke-width="4" opacity="0.96" />
+          <path d="M50 16 L60 34 L47 45 L38 32 Z" fill="#ff8b39" />
+          <path d="M60 34 L78 22" stroke="#ffe16d" stroke-width="5" stroke-linecap="round" />
+          <path d="M78 22 L84 16" stroke="#ff5f7a" stroke-width="5" stroke-linecap="round" />
+          <circle cx="48" cy="48" r="7" fill="#ff5f7a" />
+          <path d="M48 6 V18 M48 78 V90 M6 48 H18 M78 48 H90" stroke="#ffffff" stroke-width="2.5" opacity="0.8" />
+        </svg>
+        <div class="brand-wordmark">
+          <span class="brand-word brand-word--guess">Guess</span><span class="brand-word brand-word--master">Master</span>
+        </div>
+      </div>
+      <p id="modal-kicker" class="modal-kicker">Game Over</p>
+      <h2 id="modal-title">The secret number was revealed.</h2>
+      <p id="modal-body">Restart and try again.</p>
+      <div id="modal-actions" class="modal-actions"></div>
+    </div>
+  </div>
+
+  <div id="about-modal" class="about-modal" hidden aria-hidden="true">
+    <div class="about-backdrop" aria-hidden="true"></div>
+    <div class="about-card glass-panel" role="dialog" aria-labelledby="about-title">
+      <header class="about-header">
+        <div class="about-title-block">
+          <p class="about-kicker">🎯 GuessMaster v1.0</p>
+          <h2 id="about-title">Think. Guess. Win.</h2>
+        </div>
+        <button id="about-close" class="modal-close about-close" type="button" aria-label="Close About dialog">×</button>
+      </header>
+
+      <div class="about-content">
+        <section class="about-section about-developer" aria-labelledby="developer-title">
+          <h3 id="developer-title">DEVELOPER</h3>
+          <p id="about-copy" class="about-copy">Developed by Hasnain Sheikh</p>
+        </section>
+
+        <section class="about-section about-connect" aria-labelledby="social-links-title">
+          <h3 id="social-links-title">CONNECT</h3>
+          <div class="social-links" role="group" aria-label="Social links">
+            <button class="social-button" type="button" data-social="github">GitHub</button>
+            <button class="social-button" type="button" data-social="linkedin">LinkedIn</button>
+            <button class="social-button" type="button" data-social="instagram">Instagram</button>
+          </div>
+        </section>
+
+        <section class="about-section about-reviews" aria-labelledby="review-links-title">
+          <h3 id="review-links-title">REVIEWS</h3>
+          <button id="open-review" class="primary-button review-launch-button" type="button">⭐ Review Game</button>
+
+          <div class="about-review-stats" aria-label="Review summary">
+            <article class="meta-card meta-card--stacked">
+              <span class="stat-label">⭐ Average Rating</span>
+              <strong id="review-average">0.0 / 5</strong>
+            </article>
+            <article class="meta-card meta-card--stacked">
+              <span class="stat-label">📝 Total Reviews</span>
+              <strong id="review-total">0</strong>
+            </article>
+          </div>
+        </section>
+
+       
+      </div>
+
+      <footer class="about-footer">Made with ❤️ by Hasnain Sheikh</footer>
+    </div>
+  </div>
+
+  <div id="review-modal" class="review-modal" hidden aria-hidden="true">
+    <div class="review-card glass-panel" role="dialog" aria-labelledby="review-title">
+      <button id="review-close" class="modal-close" type="button" aria-label="Close review dialog">×</button>
+      <p class="modal-kicker">Review Game</p>
+      <h2 id="review-title">Rate GuessMaster</h2>
+      <p class="review-copy">Choose a score, add optional feedback, and save it locally in your browser.</p>
+
+      <form id="review-form" class="review-form">
+        <div class="review-rating" role="radiogroup" aria-label="Choose a rating from 1 to 5 stars">
+          <button class="review-star" type="button" data-rating="1" aria-label="1 star">★</button>
+          <button class="review-star" type="button" data-rating="2" aria-label="2 stars">★</button>
+          <button class="review-star" type="button" data-rating="3" aria-label="3 stars">★</button>
+          <button class="review-star" type="button" data-rating="4" aria-label="4 stars">★</button>
+          <button class="review-star" type="button" data-rating="5" aria-label="5 stars">★</button>
+        </div>
+        <label class="field-label" for="review-feedback">Written feedback (optional)</label>
+        <textarea id="review-feedback" class="review-feedback" rows="4" maxlength="360" placeholder="Tell us what you liked or what could be better..."></textarea>
+        <p id="review-status" class="review-status" aria-live="polite"></p>
+        <div class="review-actions">
+          <button id="save-review" class="primary-button" type="submit" disabled>Save Review</button>
+          <button class="ghost-button" type="button" id="review-close-secondary">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="guess-template">
+    <article class="guess-item" role="listitem">
+      <span class="guess-number"></span>
+      <span class="guess-result"></span>
+    </article>
+  </template>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
