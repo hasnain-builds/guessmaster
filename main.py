@@ -23,10 +23,10 @@ while attempts_left > 0:
         continue
 
     if guess > secret_number:
-        print("Too High!")
+        print("Higher!")
         attempts_left -= 1
     elif guess < secret_number:
-        print("Too low!")
+        print("Lower!")
         attempts_left -= 1
     else:
         print("🎉 Correct! You won.")
