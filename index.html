@@ -131,10 +131,16 @@
         </div>
         <div class="hero-actions">
           <button id="sound-toggle" class="icon-button" type="button" aria-pressed="true" aria-label="Toggle sound">
-            <span class="icon">♪</span>
+            <span class="icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2 sound-on-icon"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L5.02 9H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3.02l4.777 4.796A.7.7 0 0 0 11 19.3V4.7z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-x sound-off-icon"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L5.02 9H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h3.02l4.777 4.796A.7.7 0 0 0 11 19.3V4.7z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>
+            </span>
           </button>
           <button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="Toggle dark or light mode">
-            <span class="icon">◐</span>
+            <span class="icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun sun-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon moon-icon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </span>
           </button>
         </div>
       </header>
@@ -222,8 +228,8 @@
         <p id="input-hint" class="hint-text">Only numbers in range are accepted. Press Enter to submit.</p>
       </form>
 
-      <section class="status-panel" aria-live="polite">
-        <p id="result-message" class="result-message" role="status">Make a guess to begin.</p>
+      <section id="status-panel" class="status-panel" aria-live="polite" hidden>
+        <p id="result-message" class="result-message" role="status"></p>
         <div id="guess-feedback" class="feedback-line"></div>
       </section>
 

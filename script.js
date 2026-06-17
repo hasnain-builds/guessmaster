@@ -71,6 +71,7 @@ const dom = {
   guessCount: document.getElementById('guess-count'),
   guessHistory: document.getElementById('guess-history'),
   badgeList: document.getElementById('badge-list'),
+  statusPanel: document.getElementById('status-panel'),
   modal: document.getElementById('modal'),
   modalKicker: document.getElementById('modal-kicker'),
   modalTitle: document.getElementById('modal-title'),
@@ -185,7 +186,6 @@ function setTheme(theme) {
 function setSound(enabled) {
   appState.settings.soundOn = enabled;
   dom.soundToggle.setAttribute('aria-pressed', String(enabled));
-  dom.soundToggle.querySelector('.icon').textContent = enabled ? '♪' : '∅';
   syncSettings();
 }
 
@@ -314,9 +314,12 @@ function clearFeedback() {
   dom.resultMessage.textContent = '';
   dom.resultMessage.classList.remove('visible');
   dom.guessFeedback.innerHTML = '';
+  dom.statusPanel.hidden = true;
+  dom.statusPanel.classList.remove('pulse');
 }
 
 function showMessage(text, tone) {
+  dom.statusPanel.hidden = false;
   dom.resultMessage.textContent = text;
   dom.resultMessage.style.color = tone === 'danger' ? 'var(--danger)' : tone === 'success' ? 'var(--success)' : 'var(--text)';
   dom.resultMessage.classList.remove('visible');
@@ -552,7 +555,6 @@ function hideModal() {
   dom.modal.hidden = true;
   dom.modal.setAttribute('aria-hidden', 'true');
   setGuessingEnabled(true);
-  dom.guessInput.focus();
 }
 
 function showVictoryScreen({ guess, attemptsUsed }) {
@@ -586,7 +588,6 @@ function hideVictoryScreen() {
   dom.victoryScreen.hidden = true;
   dom.victoryScreen.setAttribute('aria-hidden', 'true');
   setGuessingEnabled(true);
-  dom.guessInput.focus();
 }
 
 function recordStatsOnWin(attemptsUsed) {
@@ -623,7 +624,7 @@ function handleGuessSubmission(event) {
 
   const rawValue = dom.guessInput.value.trim();
   if (!/^[0-9]+$/.test(rawValue)) {
-    showMessage('Only numbers are allowed.', 'danger');
+    showMessage('⚠ Enter a valid number', 'danger');
     addFeedbackChip('Numeric input required', 'high');
     shakeCard();
     playSound('wrong');
@@ -632,7 +633,7 @@ function handleGuessSubmission(event) {
 
   const guess = Number(rawValue);
   if (guess < appState.min || guess > appState.max) {
-    showMessage(`Enter a number between ${appState.min} and ${appState.max}.`, 'danger');
+    showMessage('⚠ Number must be within the selected range', 'danger');
     addFeedbackChip(`Range ${appState.min}-${appState.max}`, 'high');
     shakeCard();
     playSound('wrong');
@@ -646,9 +647,12 @@ function handleGuessSubmission(event) {
   if (guess === appState.secretNumber) {
     appState.roundOver = true;
     appState.guessHistory[0].state = 'correct';
-    appState.guessHistory[0].label = 'Correct!';
+    appState.guessHistory[0].label = '🎉 Correct!';
     renderGuessHistory();
-    showMessage('🎯 GuessMaster Champion!', 'success');
+    showMessage('🎉 Correct!', 'success');
+    dom.statusPanel.classList.remove('pulse');
+    void dom.statusPanel.offsetWidth;
+    dom.statusPanel.classList.add('pulse');
     addFeedbackChip('Oracle cracked', 'correct');
     unlockLuckyGuess();
     const attemptsUsed = appState.maxAttempts - appState.attemptsLeft + 1;
@@ -662,12 +666,12 @@ function handleGuessSubmission(event) {
   appState.attemptsLeft -= 1;
   const isHigh = guess > appState.secretNumber;
   const state = isHigh ? 'high' : 'low';
-  const label = isHigh ? 'Too High!' : 'Too Low!';
+  const label = isHigh ? '⬇ Lower' : '⬆ Higher';
   appState.guessHistory[0].state = state;
   appState.guessHistory[0].label = label;
   renderGuessHistory();
 
-  showMessage(label, 'danger');
+  showMessage(`You guessed: ${guess}\n\n${label}`, 'danger');
   addFeedbackChip(`${guess} → ${label}`, state);
   shakeCard();
   playSound('wrong');
@@ -676,6 +680,7 @@ function handleGuessSubmission(event) {
   if (appState.attemptsLeft <= 0) {
     appState.roundOver = true;
     recordStatsOnLoss();
+    showMessage(`❌ Game Over!\n\nThe number was: ${appState.secretNumber}`, 'danger');
     showGameOver();
   }
 }
@@ -725,8 +730,6 @@ function resetRound({ preserveHistory }) {
   dom.guessInput.disabled = false;
   dom.submitGuess.disabled = false;
   dom.guessInput.placeholder = `Type a number ${appState.min}-${appState.max}`;
-  dom.guessInput.focus();
-  showMessage('A new secret number has been generated.', '');
   setGuessingEnabled(true);
 }
 
@@ -770,6 +773,10 @@ function startGameWithDifficulty(difficulty) {
     button.disabled = true;
   });
   resetRound({ preserveHistory: false });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 function returnToDifficultySelection() {
